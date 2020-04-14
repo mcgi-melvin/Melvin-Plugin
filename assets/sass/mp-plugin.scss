@@ -1,0 +1,30 @@
+@import '_variables';
+
+.mp-form-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  .mp-form-col {
+    display: flex;
+    width: calc(50% - 20px);
+  }
+
+}
+
+.mp-input-container {
+  margin-bottom: 10px;
+  overflow-x: hidden;
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 15px 7px;
+    display: block;
+    font-size: 15px;
+    box-sizing : border-box;
+    &:focus {
+      outline: none;
+    }
+  }
+}

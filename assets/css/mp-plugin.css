@@ -1,0 +1,43 @@
+.mp-w-100 {
+  width: 100%;
+}
+
+.mp-button {
+  display: block;
+  background-color: #0a0a0a;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.mp-form-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+}
+.mp-form-row .mp-form-col {
+  display: flex;
+  width: calc(50% - 20px);
+}
+
+.mp-input-container {
+  margin-bottom: 10px;
+  overflow-x: hidden;
+}
+.mp-input-container input,
+.mp-input-container select,
+.mp-input-container textarea {
+  width: 100%;
+  padding: 15px 7px;
+  display: block;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+.mp-input-container input:focus,
+.mp-input-container select:focus,
+.mp-input-container textarea:focus {
+  outline: none;
+}
+
+/*# sourceMappingURL=mp-plugin.css.map */
