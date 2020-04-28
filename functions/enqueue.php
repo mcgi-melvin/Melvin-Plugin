@@ -1,45 +1,73 @@
 <?php
-if ( ! function_exists('melvin_plugin_public_enqueues') ) :
 
-function melvin_plugin_public_enqueues(){
+$main_js = array(
+  array(
+    'name'  =>  'mp-jquery',
+    'link'  =>  PLUGIN_URL . 'assets/js/jquery-3.1.1.min.js',
+    'type'  =>  'script',
+    'after_script'  =>  array(),
+    'version' =>  '',
+    'position'  =>  false,
+  ),
+  array(
+    'name'  =>  'mp-jquery-ui',
+    'link'  =>  PLUGIN_URL . 'assets/js/jquery-ui.min.js',
+    'type'  =>  'script',
+    'after_script'  =>  array('mp-jquery'),
+    'version' =>  '',
+    'position'  =>  false,
+  ),
+  array(
+    'name'  =>  'mp-main',
+    'link'  =>  PLUGIN_URL . 'assets/js/plugins.js',
+    'type'  =>  'script',
+    'after_script'  =>  array('mp-jquery'),
+    'version' =>  '',
+    'position'  =>  true,
+    'localize'  =>  array(
+      'handle'  =>  'mpAjax',
+      'object_name' => array(
+        'ajaxurl' => admin_url( 'admin-ajax.php'),
+        'site_url' => site_url(),
+      )
+    )
+  )
+);
 
-  wp_register_style('mp-main-css', PLUGIN_URL . 'assets/css/style.css');
-  wp_enqueue_style('mp-main-css');
+$admin = array(
+  array(
+    'name'  =>  'mp-admin',
+    'link'  =>  PLUGIN_URL . 'assets/css/mp_admin.css',
+    'type'  =>  'style',
+  ),
+  array(
+    'name'  =>  'mp-admin',
+    'link'  =>  PLUGIN_URL . 'assets/js/mp_admin.js',
+    'type'  =>  'script',
+    'after_script'  =>  array('mp-jquery'),
+    'version' =>  '',
+    'position'  =>  true,
+    'localize'  =>  array(
+      'handle'  =>  'mpAjax',
+      'object_name' => array(
+        'ajaxurl' => admin_url( 'admin-ajax.php'),
+        'site_url' => site_url(),
+      )
+    )
+  )
+);
 
-  wp_register_script('mp-jquery', PLUGIN_URL . 'assets/js/jquery-3.1.1.min.js', null, null, true);
-  wp_enqueue_script('mp-jquery');
+$public = array(
+  array(
+    'name'  =>  'mp-main',
+    'link'  =>  PLUGIN_URL . 'assets/css/style.css',
+    'type'  =>  'style',
+  )
+);
 
-  wp_register_script('mp-main-js', PLUGIN_URL . 'assets/js/plugins.js', array('mp-jquery'), null, true);
-  wp_localize_script( 'mp-main-js', 'mpAjax', array(
-    'ajaxurl' => admin_url( 'admin-ajax.php'),
-    'site_url' => site_url(),
-  ));
-  wp_enqueue_script('mp-main-js');
-
-  wp_register_script('mp-subscriber-js', PLUGIN_URL . 'assets/js/subscriber.js', array('mp-main-js'), null, true);
-  wp_enqueue_script('mp-subscriber-js');
-
-  wp_register_script('mp-location-js', PLUGIN_URL . 'assets/js/location.js', array('mp-main-js'), null, true);
-  wp_enqueue_script('mp-location-js');
-
-}
-
-endif;
-
-if ( ! function_exists('melvin_plugin_private_enqueues') ) :
-
-function melvin_plugin_private_enqueues(){
-
-  wp_register_script('mp-admin-js', PLUGIN_URL . 'assets/js/mp_admin.js', array('jquery'), null, true);
-  wp_localize_script( 'mp-admin-js', 'mpAjax', array(
-    'ajaxurl' => admin_url( 'admin-ajax.php'),
-    'site_url' => site_url(),
-  ));
-  wp_enqueue_script('mp-admin-js');
-
-
-}
-
-endif;
+$public_enqueue = array_merge( $public, $main_js );
+$admin_enqueue = array_merge( $admin, $main_js );
+MP_Enqueue::mergePublicEnqueue( $public_enqueue );
+MP_Enqueue::mergeAdminEnqueue( $admin_enqueue );
 
 ?>

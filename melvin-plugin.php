@@ -1,14 +1,14 @@
 <?php
 /**
-* Plugin Name:       Melvin Plugin
-* Plugin URI:        https://example.com/plugins/the-basics/
+* Plugin Name:       Mevin Package
+* Plugin URI:        https://github.com/mcgi-melvin/Melvin-Plugin
 * Description:       Detects Visitors Geo Location, FB and google login.
-* Version:           1.10.3
+* Version:           1.0.0
 * Author:            Melvin Lomibao
 * Author URI:        https://melvinlomibao.cf/
 * License:           GPL v2 or later
 * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
-* Text Domain:       melvin-plugin
+* Text Domain:       melvin-package
 */
 
 if (!defined('PLUGIN_PATH')) {

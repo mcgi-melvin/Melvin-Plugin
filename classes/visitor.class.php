@@ -2,6 +2,7 @@
 
 Class MP_Visitor {
 
+  private $session_id;
   private $ip_address;
   private $lat;
   private $lng;
@@ -9,17 +10,14 @@ Class MP_Visitor {
   private $country_code;
   private $continent;
   private $timestamp;
+  private $post;
 
-  public function __construct( $data ) {
-    $this->setData( $data );
-
-  }
-
-  protected function setData( $data ) {
+  public function setData( $data ) {
+    $this->session_id = $data['session_id'];
     $this->ip_address = $data['ip_address'];
     $this->lat = $data['lat'];
     $this->lng = $data['lng'];
-    $this->timestamp = $data['time'];
+    $this->timestamp = $data['timestamp'];
     $this->country_code = $data['country_code'];
     $this->country = $data['country'];
     $this->continent = $data['continent'];
@@ -29,7 +27,7 @@ Class MP_Visitor {
     return array(
       'post_type' =>  'mp_visitor',
       'posts_per_page'  =>  1,
-      'meta_query'  => $meta_query
+      'meta_query'  => $meta_query,
     );
   }
 
@@ -37,15 +35,19 @@ Class MP_Visitor {
     $status = 0;
     $query = array(
       array(
-        'meta_key'  =>  'mp_visitor_ip_address',
-        'meta_value'  =>  $this->ip_address,
+        'key'  =>  'mp_v_ip_address',
+        'value'  =>  $this->ip_address,
       ),
       array(
-        'meta_key'  =>  'mp_visitor_status',
-        'meta_value'  =>  'online',
+        'key'  =>  'mp_v_session_id',
+        'value'  =>  $this->session_id,
+      ),
+      array(
+        'key'  =>  'mp_v_active_status',
+        'value'  =>  'online',
       ),
     );
-    $visitor = get_post( $this->args( $query ) );
+    $visitor = get_posts( $this->args( $query ) );
 
     if( count( $visitor ) > 0 ) {
       $status = 1;
@@ -54,7 +56,37 @@ Class MP_Visitor {
     return $status;
   }
 
-  public function save_visitor() {
+  public function check_visitor_exist( $ip = null ) {
+    $query = array(
+      array(
+        'key'  =>  'mp_v_ip_address',
+        'value'  =>  $this->ip_address,
+      ),
+      array(
+        'key'  =>  'mp_v_session_id',
+        'value'  =>  $this->session_id,
+      ),
+      array(
+        'key' => 'mp_v_timestamp',
+        'value' => array( strtotime('-1 day'), strtotime( date() ) ),
+        'compare' => 'NOT BETWEEN'
+      ),
+    );
+
+    $visitor = get_posts( $this->args( $query ) );
+
+    return $visitor;
+  }
+
+  public function update_visitor_timestamp( $post_id = null ) {
+    update_field('mp_v_timestamp', $this->timestamp, $post_id);
+  }
+
+  public function update_visitor_status( $status, $post_id = null ) {
+    update_field('mp_v_active_status', $status, $post_id);
+  }
+
+  public function save() {
     $saved = 0;
 
     $saved = wp_insert_post( array(
@@ -62,8 +94,18 @@ Class MP_Visitor {
       'post_title'  =>  $this->ip_address.' From '.$this->country_code,
       'post_status' =>  'publish',
     ) );
-
-    //update_field()
+    $this->post = $saved;
+    if( $this->post != 0 ) {
+      update_field('mp_v_session_id', $this->session_id, $saved);
+      update_field('mp_v_ip_address', $this->ip_address, $saved);
+      update_field('mp_v_latitude', $this->lat, $saved);
+      update_field('mp_v_longitude', $this->lng, $saved);
+      update_field('mp_v_country_code', $this->country_code, $saved);
+      update_field('mp_v_country', $this->country, $saved);
+      update_field('mp_v_continent', $this->continent, $saved);
+      update_field('mp_v_timestamp', $this->timestamp, $saved);
+      update_field('mp_v_active_status', 'online', $saved);
+    }
 
     return $saved;
   }
