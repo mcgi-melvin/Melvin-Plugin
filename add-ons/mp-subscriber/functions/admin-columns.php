@@ -6,6 +6,7 @@ function mp_subscriber_column_headers( $columns ) {
     'cb'  =>  '<input type="checkbox" />',
     'title' =>  __('Name'),
     'email' =>  __('Email Address'),
+    'date_subscribe'  =>  __('Date Subscribed')
   );
   unset( $columns['mepr-access'] );
   return $columns;
@@ -16,14 +17,17 @@ function mp_subscriber_column_data( $column, $post_id ) {
   $output = '';
   switch( $column ) {
     case 'title':
-      $fname = get_field( 'mp_fname', $post_id );
-      $lname = get_field( 'mp_lname', $post_id );
+      $fname = get_field( 'mp_subscriber_fname', $post_id );
+      $lname = get_field( 'mp_subscriber_lname', $post_id );
       $output .= $fname.' '.$lname;
       break;
     case 'email':
-      $email = get_field( 'mp_email', $post_id );
+      $email = get_field( 'mp_subscriber_email', $post_id );
       $output .= $email;
       break;
+    case 'date_subscribe':
+      $output .= get_the_date();
+    break;
   }
 
   echo $output;
@@ -51,8 +55,8 @@ function mp_custom_admin_titles( $column, $post_id ) {
     switch( $post->post_type ) {
 
       case 'mp_subscriber':
-        $fname = get_field( 'mp_fname', $post_id );
-        $lname = get_field( 'mp_lname', $post_id );
+        $fname = get_field( 'mp_subscriber_fname', $post_id );
+        $lname = get_field( 'mp_subscriber_lname', $post_id );
         $output = $fname.' '.$lname;
       break;
 

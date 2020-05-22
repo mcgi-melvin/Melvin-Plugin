@@ -36,8 +36,8 @@ $main_js = array(
 
 $admin = array(
   array(
-    'name'  =>  'mp-admin',
-    'link'  =>  PLUGIN_URL . 'assets/css/mp_admin.css',
+    'name'  =>  'mp-admin-style',
+    'link'  =>  PLUGIN_URL . 'assets/css/style-admin.css',
     'type'  =>  'style',
   ),
   array(
@@ -58,9 +58,14 @@ $admin = array(
 );
 
 $public = array(
+  /*
+  *
+  * mp-plugin.css imported
+  *
+  */
   array(
     'name'  =>  'mp-main',
-    'link'  =>  PLUGIN_URL . 'assets/css/style.css',
+    'link'  =>  PLUGIN_URL . 'assets/css/style-public.css',
     'type'  =>  'style',
   )
 );

@@ -9,6 +9,30 @@ textarea {
   width: 100%;
 }
 
+.wpp-text-center {
+  text-align: center;
+}
+
+.wpp-text-left {
+  text-align: left;
+}
+
+.wpp-text-right {
+  text-align: right;
+}
+
+.wpp-ml-auto {
+  margin-left: auto;
+}
+
+.wpp-mr-auto {
+  margin-right: auto;
+}
+
+.wpp-m-auto {
+  margin: auto;
+}
+
 .wpp-w-100 {
   width: 100%;
 }

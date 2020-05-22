@@ -11,7 +11,7 @@ function my_acf_settings_show_admin( $show_admin ) {
     if( $option == 'checked' ) {
       return true;
     }
-    return false;
+    return true;
 }
 
 ?>

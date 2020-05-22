@@ -13,10 +13,10 @@ function mp_subscriber_admin_menu() {
 }
 */
 
-$parent_slug = 'mp_subscriber_setting_page';
+$parent_slug = 'acf-options-mp_subscriber_setting_page';
 
 $mp_subscriber_menu = array(
-  'page_title' 	=> 'Settings',
+  'page_title' 	=> 'Subscriber Settings',
   'menu_title'	=> 'Settings',
   'parent_slug' => 'edit.php?post_type=mp_subscriber',
   'menu_slug' 	=> $parent_slug,

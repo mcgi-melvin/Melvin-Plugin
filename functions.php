@@ -5,6 +5,8 @@ include( PLUGIN_PATH . 'classes/visitor.class.php');
 include( PLUGIN_PATH . 'classes/enqueue.class.php');
 include( PLUGIN_PATH . 'classes/admin-menu.class.php');
 include( PLUGIN_PATH . 'classes/easy-include.class.php');
+include( PLUGIN_PATH . 'classes/fields.class.php');
+include( PLUGIN_PATH . 'classes/encryptor.class.php');
 
 /* Includes Plugin Resources */
 Easy_Include::add_folder( PLUGIN_PATH . 'functions/' );
