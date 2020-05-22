@@ -1,0 +1,29 @@
+.dashicons-mp {
+  background-image: url("../images/dashicon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+textarea {
+  width: 100%;
+}
+
+.wpp-w-100 {
+  width: 100%;
+}
+
+.wpp-container {
+  width: calc(100% - 30px);
+}
+
+.wpp-button {
+  display: block;
+  background-color: #2f2f2f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 12px 20px;
+}
+
+/*# sourceMappingURL=style-admin.css.map */
