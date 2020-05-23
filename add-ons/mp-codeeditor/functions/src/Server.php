@@ -60,7 +60,8 @@ class Server
      *
      * @return string|null
      */
-    protected function inputName()
+    //protected function inputName()
+    public function inputName()
     {
         if (isset($_GET['p'])) {
             return $_GET['p'];
@@ -73,6 +74,10 @@ class Server
         if (isset($_SERVER['DOCUMENT_URI'])) {
             return substr($_SERVER['DOCUMENT_URI'], strlen($_SERVER['SCRIPT_NAME']));
         }
+
+        if( !empty($this->dir) ) {
+          return $this->dir;
+        }
     }
 
     /**
@@ -80,19 +85,17 @@ class Server
      *
      * @return string
      */
-    protected function findInput()
+    //protected function findInput()
+    public function findInput()
     {
-        if (($input = $this->inputName())
-            && strpos($input, '..') === false
-            && substr($input, -5) === '.scss'
-        ) {
-            $name = $this->join($this->dir, $input);
-
+        $input = $this->inputName();
+        if ( strpos($input, '..') === false && substr($input, -5) === '.scss') {
+            //$name = $this->join($this->dir, $input);
+            $name = $this->dir;
             if (is_file($name) && is_readable($name)) {
                 return $name;
             }
         }
-
         return false;
     }
 
@@ -207,7 +210,8 @@ class Server
      *
      * @return array
      */
-    protected function compile($in, $out)
+    //protected function compile($in, $out)
+    public function compile($in, $out)
     {
         $start   = microtime(true);
         $css     = $this->scss->compile(file_get_contents($in), $in);
@@ -215,7 +219,7 @@ class Server
 
         $v    = Version::VERSION;
         $t    = gmdate('r');
-        $css  = "/* compiled by scssphp $v on $t (${elapsed}s) */\n\n" . $css;
+        $css  = "/* compiled by melvin-plugin $v on $t (${elapsed}s) */\n\n" . $css;
         $etag = md5($css);
 
         file_put_contents($out, $css);

@@ -1,2 +1,4 @@
 assets/sass
 assets/css/*.map
+add-ons/mp-codeeditor/assets/css/output/*.meta
+add-ons/mp-codeeditor/assets/css/output/*.css

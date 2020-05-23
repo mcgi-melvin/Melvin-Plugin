@@ -3,16 +3,7 @@ if( class_exists('MP_CodeEditor') ) {
   MP_CodeEditor::add('textarea_1');
 }
 
-$sass_output = array(
-  array(
-    'name'  =>  'mp-sass',
-    'link'  =>  MP_CODEEDITOR_URL . 'assets/css/output.css',
-    'type'  =>  'style',
-    'after_script'  =>  array('mp-jquery'),
-    'version' =>  '',
-    'position'  =>  true,
-  )
-);
+$sass_output = array();
 $ce_sass = array(
   'name'  =>  'mp-sass',
   'link'  =>  MP_CODEEDITOR_URL . 'assets/js/sass.js',
@@ -49,6 +40,25 @@ $ce_scripts = array(
   )
 );
 
+
+$files = array_diff( scandir( MP_CSS_FOLDER_OUTPUT, 1 ), array('..', '.') );
+foreach( $files as $i => $file ) {
+  $allowed = ['css'];
+  $type = pathinfo($file, PATHINFO_EXTENSION);
+  if( !in_array( $type, $allowed ) ) {
+    continue;
+  }
+
+  if( file_exists( MP_CSS_FOLDER_OUTPUT . $file ) ) {
+
+    array_push( $sass_output, array(
+      'name'  =>  'mp-sass-output-'.$i,
+      'link'  =>  MP_CSS_FOLDER_OUTPUT_URI . $file,
+      'type'  =>  'style',
+      'version' =>  '',
+    ) );
+  }
+}
 
 MP_Enqueue::addAdminEnqueue( $ce_sass );
 MP_Enqueue::mergeAdminEnqueue( $ce_scripts );
