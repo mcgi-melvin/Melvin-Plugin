@@ -26,7 +26,7 @@ if ( !defined( 'MP_CSS_FOLDER_OUTPUT_URI' ) ) {
 }
 
 
-add_action( 'admin_menu', 'wpp_codeeditor_register_menu_page' );
+//add_action( 'admin_menu', 'wpp_codeeditor_register_menu_page' );
 
 Easy_Include::add_folder( MP_CODEEDITOR_PATH . 'functions/' );
 

@@ -60,8 +60,8 @@ class Server
      *
      * @return string|null
      */
-    //protected function inputName()
-    public function inputName()
+    protected function inputName()
+    //public function inputName()
     {
         if (isset($_GET['p'])) {
             return $_GET['p'];
@@ -85,8 +85,8 @@ class Server
      *
      * @return string
      */
-    //protected function findInput()
-    public function findInput()
+    protected function findInput()
+    //public function findInput()
     {
         $input = $this->inputName();
         if ( strpos($input, '..') === false && substr($input, -5) === '.scss') {
@@ -210,8 +210,8 @@ class Server
      *
      * @return array
      */
-    //protected function compile($in, $out)
-    public function compile($in, $out)
+    protected function compile($in, $out)
+    //public function compile($in, $out)
     {
         $start   = microtime(true);
         $css     = $this->scss->compile(file_get_contents($in), $in);
@@ -385,7 +385,7 @@ class Server
             $lastModified  = gmdate('r', $mtime);
             header('Last-Modified: ' . $lastModified);
 
-            echo file_get_contents($output);
+            //echo file_get_contents($output);
 
             return;
         }

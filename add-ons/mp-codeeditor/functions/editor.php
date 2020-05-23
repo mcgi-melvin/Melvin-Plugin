@@ -22,24 +22,26 @@ function wpp_save_css_editor() {
     $scss->setLineNumberStyle(Compiler::LINE_COMMENTS);
     $scss->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed');
 
+    $scss->compile( $code );
+    //file_put_contents( $directory . 'output.css', $script );
+    //$scss->compile( $code );
     $scss_file = fopen( $directory . '/output.scss', "w" );
     fwrite( $scss_file, $code );
     fclose( $scss_file );
 
-    $script =  $scss->compile( $code );
-    //file_put_contents( $directory . 'output.css', $script );
-    $scss->compile( $code );
     $server = new Server( $target_scss, $directory_output, $scss );
-    //$server->serve();
-
+    $server->serve();
     $response['status'] = 1;
-    $response['message']  = "Script Saved";
+    $response['message']  = 'Script Saved';
     echo json_encode( $server->serve() );
     exit();
   } catch (\Exception $e) {
-    echo '';
-    syslog(LOG_ERR, 'scssphp: Unable to compile content');
+    $response['message'] = 'Script not saved : ' . $e->getMessage();
+    //syslog(LOG_ERR, 'scssphp: Unable to compile content');
+    echo json_encode( $response );
+    exit();
   }
+
 }
 
 add_action( 'wp_ajax_wpp_get_css_editor', 'wpp_get_css_editor' );
@@ -57,8 +59,9 @@ function wpp_get_css_editor() {
   exit();
 }
 
-add_action('wp_head', 'compile_scss_onload');
+//add_action('init', 'compile_scss_onload');
 function compile_scss_onload() {
+
   try {
     $directory = MP_CODEEDITOR_PATH . 'assets/css';
     $directory_output = MP_CODEEDITOR_PATH . 'assets/css/output';
@@ -73,14 +76,17 @@ function compile_scss_onload() {
     $scss->compile( $code );
     $server = new Server( $target_scss, $directory_output, $scss );
     $server->serve();
-    print_r( $code );
     $response['status'] = 1;
     $response['message']  = "Script Saved";
     //echo json_encode( $server->serve() );
 
   } catch (\Exception $e) {
-    echo $e;
-    syslog(LOG_ERR, 'scssphp: Unable to compile content');
+    if( $e->getMessage() ) {
+      echo '<pre>';
+      print_r( $e->getMessage() );
+      echo '</pre>';
+      syslog(LOG_ERR, 'scssphp: Unable to compile content');
+    }
   }
 }
 
